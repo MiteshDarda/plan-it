@@ -18,7 +18,12 @@ export class AuthService {
   //* ========================================== LOGIN ==========================================
   login(user: JwtLoginType) {
     try {
-      const payload = { email: user.email, id: user.userId, role: user.role };
+      const payload = {
+        email: user.email,
+        id: user.userId,
+        role: user.role,
+        isInformationConfirmed: user.isInformationConfirmed,
+      };
       const token = this.jwtService.sign(payload, {
         secret: this.secret,
         expiresIn: this.expiresIn,
@@ -36,6 +41,11 @@ export class AuthService {
 
   //* ========================================== VALIDATE ==========================================
   validate(payload: JwtParamType) {
-    return { userId: payload.id, email: payload.email, role: payload.role };
+    return {
+      userId: payload.id,
+      email: payload.email,
+      role: payload.role,
+      isInformationConfirmed: payload.isInformationConfirmed,
+    };
   }
 }

@@ -19,24 +19,55 @@ export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({
+    name: 'is_active',
+    type: 'boolean',
+    default: true,
+  })
   isActive: boolean;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({
+    name: 'is_archived',
+    type: 'boolean',
+    default: false,
+  })
   isArchived: boolean;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    name: 'create_date_time',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createDateTime: Date;
 
-  @Column({ type: 'varchar', length: 300, nullable: true })
+  @Column({
+    name: 'created_by',
+    type: 'varchar',
+    length: 300,
+    nullable: true,
+  })
   createdBy: string | null;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    name: 'last_changed_date_time',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   lastChangedDateTime: Date;
 
-  @Column({ type: 'varchar', length: 300, nullable: true })
+  @Column({
+    name: 'last_changed_by',
+    type: 'varchar',
+    length: 300,
+    nullable: true,
+  })
   lastChangedBy: string | null;
 
-  @Column({ type: 'varchar', length: 300, nullable: true })
+  @Column({
+    name: 'internal_comment',
+    type: 'varchar',
+    length: 300,
+    nullable: true,
+  })
   internalComment: string | null;
 }

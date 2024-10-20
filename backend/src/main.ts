@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const logger = new Logger('Bootstrap');
   app.enableCors();
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
@@ -20,6 +21,11 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-  await app.listen(3000);
+  const PORT = process.env.PORT || 8000;
+  await app.listen(PORT);
+  logger.verbose(`Application is running on: http://localhost:${PORT}`);
+  logger.verbose(
+    `Swagger documentation is available at: http://localhost:${PORT}/api/docs`,
+  );
 }
 bootstrap();

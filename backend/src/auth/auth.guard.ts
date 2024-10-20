@@ -5,7 +5,10 @@ import {
   Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '@api/users/entities/user.entity';
 import configuration from 'src/config/configuration';
+import { Repository } from 'typeorm';
 
 /**
  * AuthGuard is responsible for verifying the JWT token to authenticate users.
@@ -19,35 +22,42 @@ import configuration from 'src/config/configuration';
 export class AuthGuard implements CanActivate {
   private readonly logger = new Logger(AuthGuard.name);
 
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 
     const { authorization } = req.headers;
 
-    // Check if the authorization header is present
     if (!authorization) {
-      this.logger.warn('Authorization header not found');
-      return true; // Proceed without user authentication
+      return true;
     }
 
     const [, token] = authorization.split(' ');
 
     try {
-      // Verify the JWT token using the JwtService
       const payload = await this.jwtService.verifyAsync(token, {
         secret: configuration().jwt.secret,
       });
 
-      // Attach the user information from the payload to req.user
-      req.user = payload;
-      this.logger.log('Token verification succeeded, user authenticated');
-      return true; // Allow the request to proceed
+      const user = await this.userRepository
+        .createQueryBuilder('user')
+        .where('user.id = :id', { id: payload.id })
+        .getOne();
+
+      if (user) {
+        req.userPayload = user;
+        req.user = user;
+      }
+
+      return true;
     } catch (e) {
-      // Log the error for debugging purposes
-      this.logger.error(`Token verification failed: ${e.message}`);
-      return false; // Deny access if token verification fails
+      this.logger.error(e.message);
+      return true;
     }
   }
 }

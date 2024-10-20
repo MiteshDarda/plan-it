@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PasswordTransformer } from 'src/utils/class-transformer/password-transformer';
+import { PasswordTransformer } from '@utils/class-transformer/password-transformer';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({

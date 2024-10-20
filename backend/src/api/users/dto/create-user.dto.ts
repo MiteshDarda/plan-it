@@ -6,7 +6,7 @@ import {
   IsStrongPassword,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { PasswordTransformer } from 'src/utils/class-transformer/password-transformer';
+import { PasswordTransformer } from '@utils/class-transformer/password-transformer';
 import { Role } from 'src/roles/roles.enum';
 
 export class CreateUserDto {

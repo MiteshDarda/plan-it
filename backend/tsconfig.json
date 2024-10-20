@@ -9,7 +9,15 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "moduleResolution": "node",
     "baseUrl": "./",
+    "paths": {
+      "src/*": ["./src/*"],
+      "src/utils/*": ["./utils/*"],
+      "@utils/*": ["src/utils/*"],
+      "@api/*": ["src/api/*"],
+      "@db/*": ["src/db/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

@@ -9,9 +9,13 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './api/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { ToDoModule } from './api/to-do/to-do.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './api/users/entities/user.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -21,6 +25,7 @@ import { AuthGuard } from './auth/auth.guard';
     AuthModule,
     DatabaseModule,
     UsersModule,
+    ToDoModule,
   ],
   controllers: [AppController],
   providers: [

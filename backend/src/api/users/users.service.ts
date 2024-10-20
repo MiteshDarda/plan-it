@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { PasswordTransformer } from 'src/utils/class-transformer/password-transformer';
+import { PasswordTransformer } from '@utils/class-transformer/password-transformer';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtLoginType } from 'src/auth/jwt-param.type';
