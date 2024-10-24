@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateToDoDto } from './dto/create-to-do.dto';
 import { UpdateToDoDto } from './dto/update-to-do.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ToDoEntity } from './entities/to-do.entity';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class ToDoService {
+  constructor(
+    @InjectRepository(ToDoEntity)
+    private readonly userRepository: Repository<ToDoEntity>,
+    private dataSource: DataSource,
+  ) {}
+
   create(createToDoDto: CreateToDoDto) {
-    return 'This action adds a new toDo';
+    throw new Error('Method not implemented.');
+    try {
+    } catch (error) {}
   }
 
   findAll() {
