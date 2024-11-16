@@ -596,14 +596,6 @@ video {
   margin: 0px;
 }
 
-.m-2 {
-  margin: 0.5rem;
-}
-
-.m-4 {
-  margin: 1rem;
-}
-
 .block {
   display: block;
 }
@@ -628,11 +620,6 @@ video {
   width: 100vw;
 }
 
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -647,10 +634,6 @@ video {
 
 .gap-10 {
   gap: 2.5rem;
-}
-
-.border {
-  border-width: 1px;
 }
 
 .bg-pink-400 {
@@ -674,10 +657,6 @@ video {
 
 .p-0 {
   padding: 0px;
-}
-
-.p-4 {
-  padding: 1rem;
 }
 
 .text-4xl {

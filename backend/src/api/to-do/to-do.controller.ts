@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ToDoService } from './to-do.service';
 import { CreateToDoDto } from './dto/create-to-do.dto';
@@ -17,13 +18,17 @@ import { AuthGuard as PassportAuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { GetUser } from '../users/users.decorator';
 import { User } from '../users/entities/user.entity';
+import { ResponseInterceptor } from '@utils/response.interceptor';
 
+@UseInterceptors(ResponseInterceptor)
 @Controller('to-do')
 export class ToDoController {
   constructor(private readonly toDoService: ToDoService) {}
 
+  //? Create ========================================================================================
   @Post()
   create(@Body() createToDoDto: CreateToDoDto) {
+    console.log('createToDoDto', createToDoDto);
     return this.toDoService.create(createToDoDto);
   }
 

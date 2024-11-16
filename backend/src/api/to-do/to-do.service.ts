@@ -9,15 +9,26 @@ import { DataSource, Repository } from 'typeorm';
 export class ToDoService {
   constructor(
     @InjectRepository(ToDoEntity)
-    private readonly userRepository: Repository<ToDoEntity>,
+    private readonly ToDoEntityRepository: Repository<ToDoEntity>,
     private dataSource: DataSource,
   ) {}
 
-  create(createToDoDto: CreateToDoDto) {
-    throw new Error('Method not implemented.');
-    try {
-    } catch (error) {}
-  }
+  create = async (createToDoDto: CreateToDoDto) => {
+    // divide the createToDoDto.description into an array of 3500 characters each
+    const descriptionArray = createToDoDto?.description?.match(/.{1,3500}/g);
+    console.log('descriptionArray', descriptionArray);
+    return {
+      data: descriptionArray.length,
+    };
+    // try {
+    //   const toDo = await this.ToDoEntityRepository.createQueryBuilder('to_do')
+    //     .insert()
+    //     .execute();
+    //   return {
+    //     data: toDo,
+    //   };
+    // } catch (error) {}
+  };
 
   findAll() {
     return `This action returns all toDo`;

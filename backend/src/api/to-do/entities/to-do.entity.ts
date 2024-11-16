@@ -1,6 +1,7 @@
 import { User } from 'src/api/users/entities/user.entity';
 import { BaseEntity } from 'src/database/base.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { ToDoDescriptionEntity } from './to-do-description';
 
 @Entity('to_do')
 export class ToDoEntity extends BaseEntity {
@@ -24,12 +25,16 @@ export class ToDoEntity extends BaseEntity {
   subtitle: string;
 
   //? Description ========================================================================================
-  @Column({
-    name: 'description',
-    type: 'text',
-    nullable: true,
-  })
-  description: string;
+  @OneToMany(
+    () => ToDoDescriptionEntity,
+    (toDoDescription) => toDoDescription.toDo,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      cascade: true,
+    },
+  )
+  descriptions: ToDoDescriptionEntity[];
 
   //? Is Completed ========================================================================================
   @Column({

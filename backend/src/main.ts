@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './utils/class-transformer/HttpExeption.filter';
+import { HttpExceptionFilter } from './utils/HttpExeption.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,13 +13,19 @@ async function bootstrap() {
       transform: true,
       transformOptions: { enableImplicitConversion: true },
       exceptionFactory: (errors) => {
-        const result = errors.map((error) => ({
-          property: error.property,
-          message: error.constraints[Object.keys(error.constraints)[0]],
-        }));
-        return new BadRequestException(result);
+        // Combine all error messages
+        const errorMessages = errors.map((error) => {
+          const constraint = Object.values(error.constraints)[0];
+          return `${error.property}: ${constraint}`;
+        });
+
+        // Join all messages with semicolons
+        const combinedMessage = errorMessages.join('; ');
+
+        return new BadRequestException(combinedMessage);
       },
-      stopAtFirstError: true,
+      // Remove stopAtFirstError since we want all errors
+      // stopAtFirstError: true,
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
